@@ -83,11 +83,12 @@ Role.destroy_all
 
 # Generate models and tables, according to the domain model.
 # TODO!
-rails generate model Studio name:string
-rails generate model Movie title:string year_released:integer rated:string studio:references
-rails generate model Actor name:string
-rails generate model Role movie:references actor:references character_name:string
-rails db:migrate
+
+# rails generate model Studio name:string
+# rails generate model Movie title:string year_released:integer rated:string studio:references
+# rails generate model Actor name:string
+# rails generate model Role movie:references actor:references character_name:string
+# rails db:migrate
 
 
 # Insert data into the database that reflects the sample data shown above.
