@@ -77,14 +77,16 @@
 # Use `Model.destroy_all` code.
 # TODO!
 
+Role.destroy_all   
+Movie.destroy_all  
+Actor.destroy_all  
 Studio.destroy_all
-Movie.destroy_all
-Actor.destroy_all
-Role.destroy_all
 
 # Generate models and tables, according to the domain model.
 # TODO!
 
+
+# executed in terminal, commented out below
 # rails generate model Studio name:string
 # rails generate model Movie title:string year_released:integer rated:string studio:references
 # rails generate model Actor name:string
@@ -175,9 +177,8 @@ puts ""
 
 # Query the movies data and loop through the results to display the movies output.
 # TODO!
-movies = Movie.all
-movies.each do |movie|
-    puts "#{movie.title.ljust(25)} #{movie.year_released}  #{movie.rated.ljust(6)} #{movie.studio.name}"
+Movie.includes(:studio).order(:year_released).each do |movie|
+  puts "#{movie.title.ljust(25)} #{movie.year_released}  #{movie.rated.ljust(6)} #{movie.studio.name}"
 end
 
 # Prints a header for the cast output
@@ -188,7 +189,8 @@ puts ""
 
 # Query the cast data and loop through the results to display the cast output for each movie.
 # TODO!
-roles = Role.all.includes(:movie, :actor)  
-roles.each do |role|
-  puts "#{role.movie.title.ljust(25)} #{role.actor.name.ljust(20)} #{role.character_name}"
+Role.includes(:movie, :actor).order("movies.year_released").group_by { |role| role.movie.title }.each do |movie_title, movie_roles|
+  movie_roles.each do |role|
+    puts "#{movie_title.ljust(25)} #{role.actor.name.ljust(20)} #{role.character_name}"
+  end
 end
